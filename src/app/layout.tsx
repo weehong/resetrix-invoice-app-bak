@@ -1,3 +1,5 @@
+import Navbar from "@/components/navbar";
+import AuthProvider from "@/providers/auth-provider";
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
@@ -10,10 +12,12 @@ const dmsans = DM_Sans({
 
 export const metadata: Metadata = {
   title: "Resetrix: Simple In-House Invoice & Purchase Receipt App",
-  description: "Simplify your financial workflows with the Resetrix In-House App. This intuitive system, developed by Resetrix, enables effortless invoice generation and organized management of all your purchasing receipts, ensuring smooth operations.",
+  description:
+    "Simplify your financial workflows with the Resetrix In-House App. This intuitive system, developed by Resetrix, enables effortless invoice generation and organized management of all your purchasing receipts, ensuring smooth operations.",
   openGraph: {
     title: "Resetrix: Simple In-House Invoice & Purchase Receipt App",
-    description: "Simplify your financial workflows with the Resetrix In-House App. This intuitive system, developed by Resetrix, enables effortless invoice generation and organized management of all your purchasing receipts, ensuring smooth operations.",
+    description:
+      "Simplify your financial workflows with the Resetrix In-House App. This intuitive system, developed by Resetrix, enables effortless invoice generation and organized management of all your purchasing receipts, ensuring smooth operations.",
     url: "https://resetrix-invoice-system.vercel.app",
     siteName: "Resetrix: Simple In-House Invoice & Purchase Receipt App",
     images: [
@@ -30,10 +34,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Resetrix: Simple In-House Invoice & Purchase Receipt App",
-    description: "Simplify your financial workflows with the Resetrix In-House App. This intuitive system, developed by Resetrix, enables effortless invoice generation and organized management of all your purchasing receipts, ensuring smooth operations.",
-    images: [
-      "https://resetrix-invoice-system.vercel.app/og-image.png",
-    ],
+    description:
+      "Simplify your financial workflows with the Resetrix In-House App. This intuitive system, developed by Resetrix, enables effortless invoice generation and organized management of all your purchasing receipts, ensuring smooth operations.",
+    images: ["https://resetrix-invoice-system.vercel.app/og-image.png"],
     creator: "@resetrix",
   },
   icons: {
@@ -134,10 +137,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${dmsans.variable} antialiased`}
-      >
-        {children}
+      <body className={`${dmsans.variable} antialiased`}>
+        <AuthProvider>
+          <Navbar />
+          <main className="min-h-screen">{children}</main>
+        </AuthProvider>
       </body>
     </html>
   );
