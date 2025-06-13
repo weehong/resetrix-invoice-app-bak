@@ -2,6 +2,7 @@ import "@/style/globals.css";
 
 import { DM_Sans } from "next/font/google";
 
+import Nav from "@/component/Nav";
 import { metadata } from "@/config/metadata.config";
 
 const dmsans = DM_Sans({
@@ -19,7 +20,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${dmsans.variable} antialiased`}>{children}</body>
+      <body className={`${dmsans.variable} antialiased`}>
+        <div className="flex min-h-screen flex-col">
+          <Nav />
+          <main className="flex-1">{children}</main>
+        </div>
+      </body>
     </html>
   );
 }

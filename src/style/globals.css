@@ -28,3 +28,8 @@ h5,
 h6 {
   @apply font-dm-sans text-primary-700 font-bold;
 }
+
+a,
+button {
+  @apply cursor-pointer;
+}
