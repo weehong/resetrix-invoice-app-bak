@@ -1,9 +1,11 @@
 import "@/style/globals.css";
 
+import React from "react";
+
 import { DM_Sans } from "next/font/google";
 
 import Nav from "@/component/Nav";
-import { metadata } from "@/config/metadata.config";
+import { metadata, viewport } from "@/config/metadata.config";
 
 const dmsans = DM_Sans({
   subsets: ["latin"],
@@ -11,7 +13,7 @@ const dmsans = DM_Sans({
   display: "swap",
 });
 
-export { metadata };
+export { metadata, viewport };
 
 export default function RootLayout({
   children,

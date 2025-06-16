@@ -103,10 +103,7 @@ export default function Nav() {
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <Link
-              href="/signin"
-              className="bg-primary-700 hover:bg-primary-600 focus-visible:outline-primary-700 ml-3 inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-offset-2"
-            >
+            <Link href="/signin" className="btn inline-flex items-center">
               Sign in
             </Link>
           </div>

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 import {
   APP_DESCRIPTION,
@@ -7,6 +7,18 @@ import {
   KEYWORDS,
   OG_IMAGE,
 } from "@/constant/metadata.constants";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ff2626" },
+    { media: "(prefers-color-scheme: dark)", color: "#ff2626" },
+  ],
+};
 
 export const metadata: Metadata = {
   title: APP_NAME,
@@ -46,18 +58,21 @@ export const metadata: Metadata = {
       },
     ],
   },
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ff2626" },
-    { media: "(prefers-color-scheme: dark)", color: "#ff2626" },
-  ],
   manifest: "/site.webmanifest",
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
     nocache: true,
-    noimageindex: false,
-    noarchive: false,
-    nosnippet: false,
+    noimageindex: true,
+    noarchive: true,
+    nosnippet: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      noarchive: true,
+      nosnippet: true,
+    },
   },
   keywords: KEYWORDS,
   alternates: {
@@ -96,13 +111,6 @@ export const metadata: Metadata = {
       "/apple-touch-startup-image-828x1792.png",
       "/apple-touch-startup-image-1242x2688.png",
     ],
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-    viewportFit: "cover",
   },
   applicationName: APP_NAME,
   category: "Business",

@@ -1,9 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Resetrix Invoice App
+
+A modern invoice management application built with Next.js 15, React 19, and Prisma, designed specifically for Resetrix's internal invoice processing and management needs.
+
+## Access
+
+This application is restricted to Resetrix employees only.
+Unauthorized access or distribution is prohibited.
+
+## Prerequisites
+
+- Resetrix employee access credentials
+- Node.js (Latest LTS version recommended)
+- npm, yarn, pnpm, or bun
+- PostgreSQL database
+- Access to Resetrix's internal development environment
 
 ## Getting Started
 
-First, run the development server:
+1. Ensure you have proper authorization from Resetrix IT department
+2. Clone the repository from Resetrix's private repository
+3. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
 
+4. Set up your environment variables:
+```bash
+cp .env.example .env
+```
+
+5. Initialize the database:
+```bash
+npm run db:generate
+npm run db:push
+# or
+yarn db:generate
+yarn db:push
+```
+
+6. Run the development server:
 ```bash
 npm run dev
 # or
@@ -16,9 +57,62 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Database Management
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The project uses Prisma for database management. Here are some useful commands:
+
+```bash
+# Generate Prisma Client
+npm run db:generate
+
+# Push schema changes to database
+npm run db:push
+
+# Create and apply migrations
+npm run db:migrate
+
+# Open Prisma Studio
+npm run db:studio
+
+# Reset database
+npm run db:reset
+
+# Seed database
+npm run db:seed
+```
+
+## Project Structure
+
+- `/src/app` - Next.js app router pages and layouts
+- `/src/component` - Reusable React components
+- `/src/config` - Configuration files
+- `/src/style` - Global styles and Tailwind configuration
+- `/prisma` - Database schema and migrations
+
+## Features
+
+- Modern UI with Tailwind CSS
+- Type-safe development with TypeScript
+- Authentication with NextAuth.js
+- Form validation with React Hook Form and Zod
+- Database management with Prisma
+- Email functionality with Resend
+- Responsive design with DM Sans font
+
+## Development
+
+- The project uses ESLint and Prettier for code formatting
+- TypeScript for type safety
+- Tailwind CSS for styling
+- Custom hooks for reusable logic
+- Component-based architecture
+
+## License
+
+This project is proprietary and confidential. All rights reserved by Resetrix.
+- Unauthorized copying, distribution, or use of this software is strictly prohibited
+- This software is for internal Resetrix use only
+- No part of this software may be reproduced or transmitted in any form without written permission from Resetrix
 
 ## Learn More
 
