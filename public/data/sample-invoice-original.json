@@ -1,0 +1,49 @@
+{
+  "logo": "/logo.png",
+  "invoiceNumber": "INV-2024-001",
+  "invoiceDate": "2024-01-15",
+  "owner": {
+    "name": "John Doe",
+    "company": "Acme Corporation",
+    "address": "123 Business Street",
+    "city": "Singapore",
+    "postal_code": "123456",
+    "email": "john@acme.com",
+    "phone": "+65 1234 5678"
+  },
+  "client": {
+    "name": "Jane Smith",
+    "company": "Client Corp",
+    "address": "456 Client Avenue",
+    "city": "Singapore",
+    "postal_code": "654321",
+    "email": "jane@client.com",
+    "phone": "+65 8765 4321"
+  },
+  "items": [
+    {
+      "section": "Development",
+      "description": "Frontend Development",
+      "manDays": 10,
+      "rate": 800
+    },
+    {
+      "section": "Development",
+      "description": "Backend Development",
+      "manDays": 8,
+      "rate": 900
+    },
+    {
+      "section": "Testing",
+      "description": "Quality Assurance",
+      "manDays": 3,
+      "rate": 600
+    }
+  ],
+  "paymentInfo": {
+    "bankName": "DBS Bank",
+    "swiftCode": "DBSSSGSG",
+    "accountNumber": "123-456789-001",
+    "accountName": "Acme Corporation"
+  }
+}

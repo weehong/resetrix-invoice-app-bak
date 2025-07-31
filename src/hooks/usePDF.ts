@@ -6,12 +6,12 @@ export const usePDF = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const generatePDF = async (data: InvoiceData) => {
+  const generatePDF = async (data: InvoiceData, showPaymentSchedule: boolean = true) => {
     setIsGenerating(true);
     setError(null);
 
     try {
-      const blob = await PDFService.generateInvoicePDF(data);
+      const blob = await PDFService.generateInvoicePDF(data, showPaymentSchedule);
       return blob;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to generate PDF');
@@ -21,12 +21,12 @@ export const usePDF = () => {
     }
   };
 
-  const downloadPDF = async (data: InvoiceData, filename?: string) => {
+  const downloadPDF = async (data: InvoiceData, filename?: string, showPaymentSchedule: boolean = true) => {
     setIsGenerating(true);
     setError(null);
 
     try {
-      await PDFService.downloadInvoicePDF(data, filename);
+      await PDFService.downloadInvoicePDF(data, filename, showPaymentSchedule);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to download PDF');
       throw err;
@@ -35,15 +35,15 @@ export const usePDF = () => {
     }
   };
 
-  const previewPDF = async (data: InvoiceData) => {
+  const previewPDF = async (data: InvoiceData, showPaymentSchedule: boolean = true) => {
     setIsGenerating(true);
     setError(null);
 
     try {
-      const url = await PDFService.previewInvoicePDF(data);
+      const url = await PDFService.previewInvoicePDF(data, showPaymentSchedule);
       return url;
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to preview PDF');
+      setError(err instanceof Error ? err.message : 'Failed to generate preview');
       throw err;
     } finally {
       setIsGenerating(false);

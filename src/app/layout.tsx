@@ -4,7 +4,8 @@ import React from "react";
 
 import { DM_Sans } from "next/font/google";
 
-import Nav from "@/component/Nav";
+import Nav from "@/components/Nav";
+import { SessionProvider } from "@/components/providers/SessionProvider";
 import { metadata, viewport } from "@/config/metadata.config";
 
 const dmsans = DM_Sans({
@@ -21,12 +22,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${dmsans.variable} antialiased`}>
-        <div className="flex min-h-screen flex-col">
-          <Nav />
-          <main className="flex-1">{children}</main>
-        </div>
+    <html lang="en" className="h-full">
+      <body className={`${dmsans.variable} h-full antialiased`}>
+        <SessionProvider>
+          <div className="min-h-full">{children}</div>
+        </SessionProvider>
       </body>
     </html>
   );

@@ -1,0 +1,118 @@
+# Page snapshot
+
+```yaml
+- navigation:
+  - link "Resetrix":
+    - /url: /
+    - img "Resetrix"
+  - link "Dashboard":
+    - /url: /dashboard
+  - link "PDF Viewer":
+    - /url: /pdf-viewer
+  - text: Welcome, John Owner
+  - button "Logout"
+- main:
+  - heading "Invoice Generator" [level=1]
+  - paragraph: Create and preview invoice PDFs
+  - button "Generate Preview"
+  - button "Download PDF"
+  - heading "Invoice Details" [level=3]
+  - text: Invoice Number *
+  - textbox "INV-001": INV-FRL-2025-001
+  - text: Currency *
+  - combobox:
+    - option "USD - US Dollar" [selected]
+    - option "EUR - Euro"
+    - option "GBP - British Pound"
+    - option "SGD - Singapore Dollar"
+    - option "JPY - Japanese Yen"
+    - option "AUD - Australian Dollar"
+    - option "CAD - Canadian Dollar"
+    - option "MYR - Malaysian Ringgit"
+  - text: Invoice Date *
+  - textbox: 2025-08-01
+  - text: Due Date *
+  - textbox: 2025-08-31
+  - heading "Customize Table Column Headers" [level=4]
+  - text: Description Column
+  - textbox "Description": Test Service
+  - text: Quantity Column
+  - textbox "Quantity"
+  - text: Rate Column
+  - textbox "Rate"
+  - text: Total Column
+  - textbox "Total"
+  - heading "Company Information" [level=3]
+  - text: Company Owner Name (Optional)
+  - textbox "Company Owner Name (Optional)": John Doe
+  - text: Company Name *
+  - textbox "Company Name": Your Company Name
+  - text: Company Registration Number (Optional)
+  - textbox "Company Registration Number (Optional)": REG123456
+  - text: Company Address *
+  - textbox "Company Address (Multi-line supported)": 123 Business Street
+  - text: City
+  - textbox "City": Singapore
+  - text: State/Province
+  - textbox "State or Province"
+  - text: Country
+  - textbox "Country": Singapore
+  - text: Postal Code (Optional)
+  - textbox "Postal Code (Optional)": "123456"
+  - text: Email *
+  - textbox "Email": contact@yourcompany.com
+  - text: Phone *
+  - textbox "Phone": +65 1234 5678
+  - text: Company Logo (Optional)
+  - button "Choose File"
+  - paragraph: "Supported formats: JPG, PNG, SVG (max 5MB)"
+  - heading "Client Information" [level=3]
+  - text: Client Name (Optional)
+  - textbox "Client Name (Optional)": John Smith
+  - text: Client Company Name (Optional)
+  - textbox "Client Company Name (Optional)": Client Company Ltd
+  - text: Address (Optional, Multi-line)
+  - textbox "Client Address (Multi-line supported)": 456 Client Avenue
+  - text: City (Optional)
+  - textbox "City": Singapore
+  - text: State/Province (Optional)
+  - textbox "State or Province"
+  - text: Country (Optional)
+  - textbox "Country": Singapore
+  - text: Postal Code (Optional)
+  - textbox "Postal Code (Optional)": "654321"
+  - text: Email (Optional)
+  - textbox "Email (Optional)": client@clientcompany.com
+  - text: Phone (Optional)
+  - textbox "Phone (Optional)": +65 8765 4321
+  - text: Registration Number (Optional)
+  - textbox "Registration Number (Optional)": REG654321
+  - heading "Invoice Items" [level=3]
+  - button "Add Item"
+  - textbox "Description": Service Description
+  - spinbutton: "1"
+  - spinbutton: "100"
+  - text: $100.00
+  - button "×"
+  - textbox "Description": New Service
+  - spinbutton: "1"
+  - spinbutton: "0"
+  - text: $0.00
+  - button "×"
+  - text: Enable Tax
+  - checkbox [checked]
+  - text: "Tax Rate (%):"
+  - spinbutton: "10"
+  - textbox "GST"
+  - paragraph: Tax rate cannot exceed 100%
+  - text: "Subtotal: $100.00 GST (100%): $100.00 Total: $200.00"
+  - heading "Payment Schedule" [level=3]
+  - radio "Include"
+  - text: Include
+  - radio "Skip" [checked]
+  - text: Skip
+  - paragraph: Click “Generate Preview” to view the PDF
+- alert
+- button "Open Next.js Dev Tools":
+  - img
+```

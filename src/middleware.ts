@@ -3,7 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 // Route configuration
 const PUBLIC_ROUTES = ["/", "/signin", "/signup", "/forgot-password"];
 const AUTH_ROUTES = ["/signin", "/signup", "/forgot-password"];
-const PROTECTED_ROUTES = ["/dashboard", "/profile", "/settings", "/invoices"];
+const PROTECTED_ROUTES = ["/dashboard", "/profile", "/settings", "/invoices", "/pdf-viewer"];
 const DEFAULT_REDIRECT = "/dashboard";
 const LOGIN_REDIRECT = "/signin";
 
@@ -21,14 +21,17 @@ const isAuthenticated = (request: NextRequest): boolean => {
   // Check for any of the possible session cookie names
   for (const cookieName of SESSION_COOKIE_NAMES) {
     const sessionCookie = request.cookies.get(cookieName);
+
     if (
       sessionCookie?.value &&
       sessionCookie.value !== "undefined" &&
-      sessionCookie.value !== "null"
+      sessionCookie.value !== "null" &&
+      sessionCookie.value.trim() !== ""
     ) {
       return true;
     }
   }
+
   return false;
 };
 
@@ -90,9 +93,15 @@ export default function middleware(request: NextRequest): NextResponse {
       // Redirect authenticated users away from auth pages
       const callbackUrl = request.nextUrl.searchParams.get("callbackUrl");
       const redirectTo =
-        callbackUrl && callbackUrl.startsWith("/")
+        callbackUrl && callbackUrl.startsWith("/") && callbackUrl !== pathname
           ? callbackUrl
           : DEFAULT_REDIRECT;
+
+      // Prevent redirect loop - don't redirect to the same page
+      if (redirectTo === pathname) {
+        return NextResponse.next();
+      }
+
       return createRedirect(redirectTo, request);
     }
     // Allow unauthenticated users to access auth routes
@@ -110,12 +119,20 @@ export default function middleware(request: NextRequest): NextResponse {
   }
 
   // Handle protected routes
-  if (isProtectedRoute(pathname) && !isUserAuthenticated) {
-    // Redirect unauthenticated users to signin
-    return createRedirect(LOGIN_REDIRECT, request);
+  if (isProtectedRoute(pathname)) {
+    if (!isUserAuthenticated) {
+      // Prevent redirect loop - don't redirect signin to signin
+      if (pathname === LOGIN_REDIRECT) {
+        return NextResponse.next();
+      }
+      // Redirect unauthenticated users to signin
+      return createRedirect(LOGIN_REDIRECT, request);
+    }
+    // Allow authenticated users to access protected routes
+    return NextResponse.next();
   }
 
-  // Allow authenticated users to access protected routes
+  // For any other routes, allow them through
   return NextResponse.next();
 }
 

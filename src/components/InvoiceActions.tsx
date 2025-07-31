@@ -1,21 +1,24 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { InvoiceData } from '@/types/invoice';
-import { usePDF } from '@/hooks/usePDF';
+import React from "react";
+
+import { usePDF } from "@/hooks/usePDF";
+import { InvoiceData } from "@/types/invoice";
 
 interface InvoiceActionsProps {
   invoiceData: InvoiceData;
 }
 
-export const InvoiceActions: React.FC<InvoiceActionsProps> = ({ invoiceData }) => {
+export const InvoiceActions: React.FC<InvoiceActionsProps> = ({
+  invoiceData,
+}) => {
   const { downloadPDF, isGenerating } = usePDF();
 
   const handleDownload = async () => {
     try {
       await downloadPDF(invoiceData);
     } catch (error) {
-      console.error('Download failed:', error);
+      console.error("Download failed:", error);
     }
   };
 
@@ -24,9 +27,9 @@ export const InvoiceActions: React.FC<InvoiceActionsProps> = ({ invoiceData }) =
       <button
         onClick={handleDownload}
         disabled={isGenerating}
-        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+        className="bg-primary-800 hover:bg-primary-800 rounded px-4 py-2 text-white disabled:opacity-50"
       >
-        {isGenerating ? 'Generating...' : 'Download PDF'}
+        {isGenerating ? "Generating..." : "Download PDF"}
       </button>
     </div>
   );
