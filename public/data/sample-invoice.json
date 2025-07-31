@@ -1,0 +1,75 @@
+{
+  "invoiceNumber": "INV-2025-001",
+  "invoiceDate": "2025-01-15",
+  "dueDate": "2025-02-15",
+  "issueDate": "2025-01-15",
+  "poNumber": "PO-2025-0123",
+  "company": {
+    "name": "Resetrix",
+    "address": "123 Business Street\nSingapore 123456",
+    "phone": "+65 1234 5678",
+    "email": "billing@resetrix.com",
+    "website": "www.resetrix.com",
+    "registrationNumber": "202012345A",
+    "taxId": "GST-123456789"
+  },
+  "client": {
+    "name": "InchFab Pte Ltd",
+    "address": "456 Client Avenue\nSingapore 654321",
+    "phone": "+65 8765 4321",
+    "email": "accounts@inchfab.com",
+    "contactPerson": "John Doe",
+    "registrationNumber": "201987654B"
+  },
+  "items": [
+    {
+      "id": "1",
+      "description": "Web Development Services",
+      "quantity": 40,
+      "unitPrice": 150.00,
+      "total": 6000.00
+    },
+    {
+      "id": "2",
+      "description": "UI/UX Design",
+      "quantity": 20,
+      "unitPrice": 120.00,
+      "total": 2400.00
+    },
+    {
+      "id": "3",
+      "description": "Project Management",
+      "quantity": 10,
+      "unitPrice": 100.00,
+      "total": 1000.00
+    }
+  ],
+  "subtotal": 9400.00,
+  "discount": {
+    "rate": 5,
+    "amount": 470.00,
+    "description": "Early Payment Discount"
+  },
+  "tax": {
+    "rate": 8,
+    "amount": 714.40,
+    "label": "GST"
+  },
+  "total": 9644.40,
+  "notes": "Thank you for your business! Payment is due within 30 days. Please include the invoice number in your payment reference.",
+  "paymentTerms": "Net 30 days. Late payments may incur additional charges.",
+  "payment": {
+    "terms": "Net 30 days",
+    "method": "Bank Transfer",
+    "bankDetails": {
+      "bankName": "DBS Bank Ltd",
+      "accountNumber": "123-456789-001",
+      "routingNumber": "7171",
+      "swiftCode": "DBSSSGSG"
+    },
+    "dueDate": "2025-02-15"
+  },
+  "status": "sent",
+  "currency": "$",
+  "locale": "en-SG"
+}
