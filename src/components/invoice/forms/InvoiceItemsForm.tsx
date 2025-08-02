@@ -114,19 +114,18 @@ export function InvoiceItemsForm({
   };
 
   return (
-    <div className="card">
+    <div className="border-b border-white/10 pb-12">
       <div className="card-header">
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-lg font-semibold">Invoice Items</h3>
-          <button
-            onClick={addItem}
-            className="bg-primary-700 rounded px-3 py-1 text-sm text-white"
-          >
+          <h2 className="text-xl font-semibold text-indigo-600">
+            Invoice Items
+          </h2>
+          <button onClick={addItem} className="btn">
             Add Item
           </button>
         </div>
       </div>
-      <div className="card-body">
+      <div className="mt-8">
         <div className="space-y-3">
           {fields.map((field, index) => (
             <div
@@ -211,21 +210,23 @@ export function InvoiceItemsForm({
       </div>
       <div className="card-footer">
         <div className="mt-4 border-t pt-4">
-          <div className="space-y-3">
+          <div className="grid grid-cols-4 space-y-3">
             {/* Tax Toggle Section */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <label className="text-sm font-medium">Enable Tax</label>
-                <input
-                  type="checkbox"
-                  {...register("tax.enabled")}
-                  className="text-primary-600 focus:ring-primary-500 h-4 w-4 rounded border-gray-300"
-                />
-              </div>
+            <div>
+              <input
+                type="checkbox"
+                {...register("tax.enabled")}
+                className="text-primary-600 focus:ring-primary-500 h-4 w-4 rounded border-gray-300"
+              />
+              <label className="text-sm font-medium">Enable Tax</label>
+            </div>
+            <div className="col-span-2">
+              <label className="text-sm">Tax Rate (%):</label>
+            </div>
+            <div>
               {watchedTax?.enabled && (
-                <div className="flex flex-col items-end">
-                  <div className="flex items-center">
-                    <label className="text-sm">Tax Rate (%):</label>
+                <>
+                  <div className="flex items-center justify-between">
                     <input
                       type="number"
                       step="0.01"
@@ -255,7 +256,7 @@ export function InvoiceItemsForm({
                           return clampedValue / 100;
                         },
                       })}
-                      className={`mx-2 w-20 rounded border p-1 text-sm ${
+                      className={`rounded border p-1 text-sm ${
                         errors.tax?.rate ? "border-red-500" : ""
                       }`}
                       placeholder="7"
@@ -268,7 +269,7 @@ export function InvoiceItemsForm({
                     <input
                       type="text"
                       {...register("tax.label")}
-                      className="w-16 rounded border p-1 text-sm"
+                      className="rounded border p-1 text-sm"
                       placeholder="GST"
                     />
                   </div>
@@ -277,21 +278,26 @@ export function InvoiceItemsForm({
                       {errors.tax.rate.message}
                     </p>
                   )}
-                </div>
+                </>
               )}
             </div>
+          </div>
+          <div className="grid grid-cols-4">
+            <div></div>
 
             {/* Totals Section */}
-            <div className="space-y-1 text-right">
+            <div className="col-span-2 space-y-1 text-right">
+              <div className="text-sm">Subtotal: </div>
+            </div>
+            <div>
               <div>
-                Subtotal:{" "}
                 <CurrencyDisplay
                   amount={calculatedSubtotal}
                   currency={watchedCurrency}
                 />
               </div>
               {watchedTax?.enabled && (
-                <div>
+                <div className="text-sm">
                   {watchedTax?.label || "Tax"} (
                   {Math.max(
                     0,
@@ -304,7 +310,7 @@ export function InvoiceItemsForm({
                   />
                 </div>
               )}
-              <div className="text-lg font-bold">
+              <div className="text-sm font-bold">
                 Total:{" "}
                 <CurrencyDisplay
                   amount={calculatedTotal}

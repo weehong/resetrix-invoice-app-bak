@@ -36,7 +36,7 @@ export default async function Dashboard() {
             href="/pdf-viewer"
             className="card group transition-all duration-200 hover:scale-105 hover:shadow-lg"
           >
-            <div className="card-body">
+            <div className="mt-8">
               <div className="mb-4 flex items-center">
                 <div className="flex-shrink-0">
                   <div className="bg-accent-600 group-hover:bg-accent-700 flex h-10 w-10 items-center justify-center rounded-lg transition-colors duration-200">
@@ -73,7 +73,7 @@ export default async function Dashboard() {
             href="/invoices"
             className="card group transition-all duration-200 hover:scale-105 hover:shadow-lg"
           >
-            <div className="card-body">
+            <div className="mt-8">
               <div className="mb-4 flex items-center">
                 <div className="flex-shrink-0">
                   <div className="bg-primary-600 group-hover:bg-primary-700 flex h-10 w-10 items-center justify-center rounded-lg transition-colors duration-200">
@@ -110,7 +110,7 @@ export default async function Dashboard() {
             href="/settings"
             className="card group transition-all duration-200 hover:scale-105 hover:shadow-lg"
           >
-            <div className="card-body">
+            <div className="mt-8">
               <div className="mb-4 flex items-center">
                 <div className="flex-shrink-0">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-600 transition-colors duration-200 group-hover:bg-gray-700">
@@ -157,7 +157,7 @@ export default async function Dashboard() {
             Recent Activity
           </h2>
         </div>
-        <div className="card-body">
+        <div className="mt-8">
           <div className="text-center">
             <svg
               className="mx-auto h-16 w-16 text-gray-400"

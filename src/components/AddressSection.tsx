@@ -62,9 +62,6 @@ const AddressBlock = ({
       <Text style={[styles.text, styles.company]}>{address.company}</Text>
     )}
     <Text style={styles.text}>{address.address}</Text>
-    {address.city && <Text style={styles.text}>{address.city}</Text>}
-    {address.state && <Text style={styles.text}>{address.state}</Text>}
-    {address.country && <Text style={styles.text}>{address.country}</Text>}
     {address.postal_code && (
       <Text style={styles.text}>{address.postal_code}</Text>
     )}

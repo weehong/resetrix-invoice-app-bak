@@ -21,11 +21,13 @@ export function ClientInformationForm({
   errors,
 }: ClientInformationFormProps) {
   return (
-    <div className="card">
+    <div className="border-b border-white/10 pb-12">
       <div className="card-header">
-        <h3 className="text-lg font-semibold">Client Information</h3>
+        <h2 className="text-xl font-semibold text-indigo-600">
+          Client Information
+        </h2>
       </div>
-      <div className="card-body">
+      <div className="mt-8">
         <div className="space-y-3">
           <div>
             <label className="mb-1 block text-sm font-medium">
@@ -35,7 +37,7 @@ export function ClientInformationForm({
               type="text"
               placeholder="Client Name (Optional)"
               {...register("client.name")}
-              className="w-full rounded border p-2"
+              className="w-full rounded border p-2 text-sm"
             />
             {errors.client?.name && (
               <p className="mt-1 text-sm text-red-600">
@@ -52,7 +54,7 @@ export function ClientInformationForm({
               type="text"
               placeholder="Client Company Name (Optional)"
               {...register("client.companyName")}
-              className="w-full rounded border p-2"
+              className="w-full rounded border p-2 text-sm"
             />
             {errors.client?.companyName && (
               <p className="mt-1 text-sm text-red-600">
@@ -69,7 +71,7 @@ export function ClientInformationForm({
               placeholder="Client Address&#10;(Multi-line supported)"
               {...register("client.address")}
               rows={3}
-              className="resize-vertical w-full rounded border p-2"
+              className="resize-vertical w-full rounded border p-2 text-sm"
             />
             {errors.client?.address && (
               <p className="mt-1 text-sm text-red-600">
@@ -78,59 +80,6 @@ export function ClientInformationForm({
             )}
           </div>
 
-          {/* Geographic fields row */}
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div>
-              <label className="mb-1 block text-sm font-medium">
-                City <span className="text-gray-500">(Optional)</span>
-              </label>
-              <input
-                type="text"
-                {...register("client.city")}
-                className="w-full rounded border p-2"
-                placeholder="City"
-              />
-              {errors.client?.city && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.client.city.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label className="mb-1 block text-sm font-medium">
-                State/Province <span className="text-gray-500">(Optional)</span>
-              </label>
-              <input
-                type="text"
-                {...register("client.state")}
-                className="w-full rounded border p-2"
-                placeholder="State or Province"
-              />
-              {errors.client?.state && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.client.state.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label className="mb-1 block text-sm font-medium">
-                Country <span className="text-gray-500">(Optional)</span>
-              </label>
-              <input
-                type="text"
-                {...register("client.country")}
-                className="w-full rounded border p-2"
-                placeholder="Country"
-              />
-              {errors.client?.country && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.client.country.message}
-                </p>
-              )}
-            </div>
-          </div>
           <div>
             <label className="mb-1 block text-sm font-medium">
               Postal Code <span className="text-gray-500">(Optional)</span>
@@ -139,7 +88,7 @@ export function ClientInformationForm({
               type="text"
               placeholder="Postal Code (Optional)"
               {...register("client.postalCode")}
-              className="w-full rounded border p-2"
+              className="w-full rounded border p-2 text-sm"
             />
             {errors.client?.postalCode && (
               <p className="mt-1 text-sm text-red-600">
@@ -156,7 +105,7 @@ export function ClientInformationForm({
                 type="email"
                 placeholder="Email (Optional)"
                 {...register("client.email")}
-                className="w-full rounded border p-2"
+                className="w-full rounded border p-2 text-sm"
               />
               {errors.client?.email && (
                 <p className="mt-1 text-sm text-red-600">
@@ -172,7 +121,7 @@ export function ClientInformationForm({
                 type="text"
                 placeholder="Phone (Optional)"
                 {...register("client.phone")}
-                className="w-full rounded border p-2"
+                className="w-full rounded border p-2 text-sm"
               />
               {errors.client?.phone && (
                 <p className="mt-1 text-sm text-red-600">
@@ -190,7 +139,7 @@ export function ClientInformationForm({
               type="text"
               placeholder="Registration Number (Optional)"
               {...register("client.registrationNumber")}
-              className="w-full rounded border p-2"
+              className="w-full rounded border p-2 text-sm"
             />
             {errors.client?.registrationNumber && (
               <p className="mt-1 text-sm text-red-600">

@@ -66,13 +66,13 @@ export function CompanyInformationForm({
   };
 
   return (
-    <div className="card">
+    <div className="border-b border-white/10 pb-12">
       <div className="card-header">
-        <h3 className="text-lg font-semibold text-gray-900">
+        <h2 className="text-xl font-semibold text-indigo-600">
           Company Information
-        </h3>
+        </h2>
       </div>
-      <div className="card-body">
+      <div className="mt-8">
         <div className="space-y-6">
           <div>
             <label
@@ -88,7 +88,7 @@ export function CompanyInformationForm({
                 type="text"
                 placeholder="Company Owner Name (Optional)"
                 {...register("company.ownerName")}
-                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
+                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
                   errors.company?.ownerName ? "error-input" : ""
                 }`}
               />
@@ -112,7 +112,7 @@ export function CompanyInformationForm({
                 type="text"
                 placeholder="Company Name"
                 {...register("company.name")}
-                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
+                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
                   errors.company?.name ? "error-input" : ""
                 }`}
               />
@@ -137,7 +137,7 @@ export function CompanyInformationForm({
                 type="text"
                 placeholder="Company Registration Number (Optional)"
                 {...register("company.registrationNumber")}
-                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
+                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
                   errors.company?.registrationNumber ? "error-input" : ""
                 }`}
               />
@@ -162,7 +162,7 @@ export function CompanyInformationForm({
                 placeholder="Company Address&#10;(Multi-line supported)"
                 {...register("company.address")}
                 rows={3}
-                className={`focus:border-accent-500 focus:ring-accent-500 block w-full resize-y rounded-md border-gray-300 shadow-sm sm:text-sm ${
+                className={`focus:border-accent-500 focus:ring-accent-500 block w-full resize-y rounded-md border-gray-300 text-sm shadow-sm ${
                   errors.company?.address ? "error-input" : ""
                 }`}
               />
@@ -171,84 +171,6 @@ export function CompanyInformationForm({
                   {errors.company.address.message}
                 </p>
               )}
-            </div>
-          </div>
-
-          {/* Geographic fields row */}
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            <div>
-              <label
-                htmlFor="companyCity"
-                className="block text-sm font-medium text-gray-700"
-              >
-                City
-              </label>
-              <div className="mt-1">
-                <input
-                  id="companyCity"
-                  type="text"
-                  {...register("company.city")}
-                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
-                    errors.company?.city ? "error-input" : ""
-                  }`}
-                  placeholder="City"
-                />
-                {errors.company?.city && (
-                  <p className="text-error-600 mt-2 text-sm">
-                    {errors.company.city.message}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="companyState"
-                className="block text-sm font-medium text-gray-700"
-              >
-                State/Province
-              </label>
-              <div className="mt-1">
-                <input
-                  id="companyState"
-                  type="text"
-                  {...register("company.state")}
-                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
-                    errors.company?.state ? "error-input" : ""
-                  }`}
-                  placeholder="State or Province"
-                />
-                {errors.company?.state && (
-                  <p className="text-error-600 mt-2 text-sm">
-                    {errors.company.state.message}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="companyCountry"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Country
-              </label>
-              <div className="mt-1">
-                <input
-                  id="companyCountry"
-                  type="text"
-                  {...register("company.country")}
-                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
-                    errors.company?.country ? "error-input" : ""
-                  }`}
-                  placeholder="Country"
-                />
-                {errors.company?.country && (
-                  <p className="text-error-600 mt-2 text-sm">
-                    {errors.company.country.message}
-                  </p>
-                )}
-              </div>
             </div>
           </div>
 
@@ -265,7 +187,7 @@ export function CompanyInformationForm({
                 type="text"
                 placeholder="Postal Code (Optional)"
                 {...register("company.postalCode")}
-                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
+                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
                   errors.company?.postalCode ? "error-input" : ""
                 }`}
               />
@@ -290,7 +212,7 @@ export function CompanyInformationForm({
                   type="email"
                   placeholder="Email"
                   {...register("company.email")}
-                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
+                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
                     errors.company?.email ? "error-input" : ""
                   }`}
                 />
@@ -314,7 +236,7 @@ export function CompanyInformationForm({
                   type="text"
                   placeholder="Phone"
                   {...register("company.phone")}
-                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
+                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
                     errors.company?.phone ? "error-input" : ""
                   }`}
                 />
@@ -328,7 +250,7 @@ export function CompanyInformationForm({
           </div>
 
           {/* Logo Upload Section */}
-          <div className="border-t border-gray-200 pt-8">
+          <div>
             <label className="mb-4 block text-sm font-medium text-gray-700">
               Company Logo <span className="text-gray-500">(Optional)</span>
             </label>

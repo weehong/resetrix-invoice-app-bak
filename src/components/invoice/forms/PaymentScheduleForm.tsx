@@ -82,10 +82,12 @@ export function PaymentScheduleForm({
   };
 
   return (
-    <div className="card">
+    <div className="border-b border-white/10 pb-12">
       <div className="card-header">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold">Payment Schedule</h3>
+          <h2 className="text-xl font-semibold text-indigo-600">
+            Payment Schedule
+          </h2>
           <div className="flex items-center gap-x-4">
             <div className="flex items-center">
               <input
@@ -125,7 +127,7 @@ export function PaymentScheduleForm({
 
       {showPaymentSchedule && (
         <>
-          <div className="card-body">
+          <div className="mt-8">
             <div className="space-y-4">
               <h4 className="text-md mb-3 font-medium">Bank Details</h4>
               <div className="space-y-3">
@@ -137,7 +139,7 @@ export function PaymentScheduleForm({
                     type="text"
                     placeholder="Bank Name"
                     {...register("payment.bankDetails.bankName")}
-                    className="w-full rounded border p-2"
+                    className="w-full rounded border p-2 text-sm"
                   />
                   {errors.payment?.bankDetails?.bankName && (
                     <p className="mt-1 text-sm text-red-600">
@@ -155,7 +157,7 @@ export function PaymentScheduleForm({
                     type="text"
                     placeholder="Account Name"
                     {...register("payment.bankDetails.accountName")}
-                    className="w-full rounded border p-2"
+                    className="w-full rounded border p-2 text-sm"
                   />
                   {errors.payment?.bankDetails?.accountName && (
                     <p className="mt-1 text-sm text-red-600">
@@ -174,7 +176,7 @@ export function PaymentScheduleForm({
                       type="text"
                       placeholder="Account Number"
                       {...register("payment.bankDetails.accountNumber")}
-                      className="w-full rounded border p-2"
+                      className="w-full rounded border p-2 text-sm"
                     />
                     {errors.payment?.bankDetails?.accountNumber && (
                       <p className="mt-1 text-sm text-red-600">
@@ -192,7 +194,7 @@ export function PaymentScheduleForm({
                       type="text"
                       placeholder="SWIFT Code"
                       {...register("payment.bankDetails.swiftCode")}
-                      className="w-full rounded border p-2"
+                      className="w-full rounded border p-2 text-sm"
                     />
                     {errors.payment?.bankDetails?.swiftCode && (
                       <p className="mt-1 text-sm text-red-600">

@@ -25,11 +25,9 @@ export function InvoiceDetailsForm({
   const currencyOptions = getCurrencyOptions();
 
   return (
-    <div className="card">
-      <div className="card-header">
-        <h3 className="text-lg font-semibold text-gray-900">Invoice Details</h3>
-      </div>
-      <div className="card-body">
+    <div className="border-b border-white/10 pb-12">
+      <h2 className="text-xl font-semibold text-indigo-600">Invoice Details</h2>
+      <div className="mt-4">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div>
             <label
@@ -43,7 +41,7 @@ export function InvoiceDetailsForm({
                 id="invoiceNumber"
                 type="text"
                 {...register("invoiceNumber")}
-                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
+                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
                   errors.invoiceNumber ? "error-input" : ""
                 }`}
                 placeholder="INV-001"
@@ -66,7 +64,7 @@ export function InvoiceDetailsForm({
               <select
                 id="currency"
                 {...register("currency")}
-                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
+                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
                   errors.currency ? "error-input" : ""
                 }`}
               >
@@ -96,7 +94,7 @@ export function InvoiceDetailsForm({
                 id="invoiceDate"
                 type="date"
                 {...register("invoiceDate")}
-                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
+                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
                   errors.invoiceDate ? "error-input" : ""
                 }`}
               />
@@ -120,7 +118,7 @@ export function InvoiceDetailsForm({
                 id="dueDate"
                 type="date"
                 {...register("dueDate")}
-                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
+                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
                   errors.dueDate ? "error-input" : ""
                 }`}
               />
@@ -134,11 +132,11 @@ export function InvoiceDetailsForm({
         </div>
 
         {/* Column Headers Customization */}
-        <div className="mt-8 border-t border-gray-200 pt-8">
-          <h4 className="mb-6 text-lg font-medium text-gray-900">
+        <div className="mt-8 pt-8">
+          <h2 className="text-xl font-semibold text-indigo-600">
             Customize Table Column Headers
-          </h4>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          </h2>
+          <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
               <label
                 htmlFor="descriptionColumn"
@@ -151,7 +149,7 @@ export function InvoiceDetailsForm({
                   id="descriptionColumn"
                   type="text"
                   {...register("columnHeaders.description")}
-                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
+                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
                     errors.columnHeaders?.description ? "error-input" : ""
                   }`}
                   placeholder="Description"
@@ -176,7 +174,7 @@ export function InvoiceDetailsForm({
                   id="quantityColumn"
                   type="text"
                   {...register("columnHeaders.quantity")}
-                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
+                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
                     errors.columnHeaders?.quantity ? "error-input" : ""
                   }`}
                   placeholder="Quantity"
@@ -201,7 +199,7 @@ export function InvoiceDetailsForm({
                   id="rateColumn"
                   type="text"
                   {...register("columnHeaders.rate")}
-                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
+                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
                     errors.columnHeaders?.rate ? "error-input" : ""
                   }`}
                   placeholder="Rate"
@@ -226,7 +224,7 @@ export function InvoiceDetailsForm({
                   id="totalColumn"
                   type="text"
                   {...register("columnHeaders.total")}
-                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm ${
+                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
                     errors.columnHeaders?.total ? "error-input" : ""
                   }`}
                   placeholder="Total"
