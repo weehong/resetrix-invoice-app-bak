@@ -215,7 +215,10 @@ const DynamicGridHeader = ({
           styles.gridCol,
           { flex: index === 0 ? 3 : 1 } // First column gets 3x width, others get 1x
         ]}>
-          <Text style={styles.headerText}>
+          <Text style={[
+            styles.headerText,
+            { textAlign: column.type === "currency" || column.type === "number" ? "right" : "left" }
+          ]}>
             {column.label.toUpperCase()}
             {column.type === "currency" ? ` (${currencyCode})` : ""}
           </Text>
@@ -245,29 +248,32 @@ const GridHeader = ({
       </Text>
     </View>
     <View style={[styles.gridCol, styles.manDayCol]}>
-      <Text style={styles.headerText}>
+      <Text style={[styles.headerText, { textAlign: "right" }]}>
         {columnHeaders.quantity.toUpperCase()}
       </Text>
     </View>
     <View style={[styles.gridCol, styles.rateCol]}>
-      <Text style={styles.headerText}>
+      <Text style={[styles.headerText, { textAlign: "right" }]}>
         {columnHeaders.rate.toUpperCase()} ({currencyCode})
       </Text>
     </View>
     <View style={[styles.gridCol, styles.amountCol]}>
-      <Text style={styles.headerText}>
+      <Text style={[styles.headerText, { textAlign: "right" }]}>
         {columnHeaders.total.toUpperCase()} ({currencyCode})
       </Text>
     </View>
   </View>
 );
 
-const TotalsSection = ({
+// Dynamic TotalsSection that follows the same 3:1:1:1... proportional layout
+const DynamicTotalsSection = ({
+  columns,
   subtotal,
   tax,
   total,
   currencyCode = "SGD",
 }: {
+  columns: ColumnConfig[];
   subtotal: number;
   tax?: {
     enabled: boolean;
@@ -277,54 +283,67 @@ const TotalsSection = ({
   };
   total: number;
   currencyCode?: string;
-}) => (
-  <>
-    {/* Subtotal Row */}
+}) => {
+  const sortedColumns = [...columns].sort((a, b) => a.order - b.order);
+  const totalColumns = sortedColumns.length;
+
+  // Create a row with proper proportional spacing
+  const createTotalRow = (label: string, amount: number, isBold: boolean = false) => (
     <View style={styles.gridFooter}>
-      <View style={[styles.gridCol, { width: "90%", textAlign: "right" }]}>
-        <Text style={styles.footerText}>SUBTOTAL ({currencyCode})</Text>
-      </View>
-      <View style={[styles.gridCol, styles.amountCol]}>
-        <Text style={[styles.footerText, styles.monoText]}>
-          {currency(subtotal, currencyCode)}
-        </Text>
-      </View>
-    </View>
+      {sortedColumns.map((column, index) => {
+        const isLastColumn = index === totalColumns - 1;
+        const isSecondToLastColumn = index === totalColumns - 2;
 
-    {/* Tax Row (only if tax is enabled) */}
-    {tax?.enabled && (
-      <View style={styles.gridFooter}>
-        <View style={[styles.gridCol, { width: "90%", textAlign: "right" }]}>
-          <Text style={styles.footerText}>
-            {tax.label?.toUpperCase() || "TAX"} ({(tax.rate * 100).toFixed(0)}%)
-            ({currencyCode})
-          </Text>
-        </View>
-        <View style={[styles.gridCol, styles.amountCol]}>
-          <Text style={[styles.footerText, styles.monoText]}>
-            {currency(tax.amount, currencyCode)}
-          </Text>
-        </View>
-      </View>
-    )}
-
-    {/* Total Row */}
-    <View style={[styles.gridFooter]}>
-      <View style={[styles.gridCol, { width: "90%", textAlign: "right" }]}>
-        <Text style={[styles.footerText, { fontWeight: "bold" }]}>
-          TOTAL ({currencyCode})
-        </Text>
-      </View>
-      <View style={[styles.gridCol, styles.amountCol]}>
-        <Text
-          style={[styles.footerText, styles.monoText, { fontWeight: "bold" }]}
-        >
-          {currency(total, currencyCode)}
-        </Text>
-      </View>
+        return (
+          <View key={column.id} style={[
+            styles.gridCol,
+            { flex: index === 0 ? 3 : 1 }
+          ]}>
+            {isSecondToLastColumn ? (
+              // Show label in second-to-last column (right-aligned)
+              <Text style={[
+                styles.footerText,
+                { textAlign: "right" },
+                isBold ? { fontWeight: "bold" } : {}
+              ]}>
+                {label}
+              </Text>
+            ) : isLastColumn ? (
+              // Show amount in last column (right-aligned)
+              <Text style={[
+                styles.footerText,
+                styles.monoText,
+                { textAlign: "right" },
+                isBold ? { fontWeight: "bold" } : {}
+              ]}>
+                {currency(amount, currencyCode)}
+              </Text>
+            ) : (
+              // Empty cells for other columns
+              <Text style={styles.footerText}></Text>
+            )}
+          </View>
+        );
+      })}
     </View>
-  </>
-);
+  );
+
+  return (
+    <>
+      {/* Subtotal Row */}
+      {createTotalRow(`SUBTOTAL (${currencyCode})`, subtotal)}
+
+      {/* Tax Row (only if tax is enabled) */}
+      {tax?.enabled && createTotalRow(
+        `${tax.label?.toUpperCase() || "TAX"} (${(tax.rate * 100).toFixed(0)}%) (${currencyCode})`,
+        tax.amount
+      )}
+
+      {/* Total Row */}
+      {createTotalRow(`TOTAL (${currencyCode})`, total, true)}
+    </>
+  );
+};
 
 // Dynamic GridRow that supports custom columns
 const DynamicGridRow = ({
@@ -369,7 +388,8 @@ const DynamicGridRow = ({
         ]}>
           <Text style={[
             styles.bodyText,
-            ...(column.type === "currency" || column.type === "number" ? [styles.monoText] : [])
+            ...(column.type === "currency" || column.type === "number" ? [styles.monoText] : []),
+            { textAlign: column.type === "currency" || column.type === "number" ? "right" : "left" }
           ]}>
             {getColumnValue(column)}
           </Text>
@@ -392,15 +412,15 @@ const GridRow = ({
       <Text style={styles.bodyText}>{item.description}</Text>
     </View>
     <View style={[styles.gridCol, styles.manDayCol]}>
-      <Text style={styles.bodyText}>{item.manDays}</Text>
+      <Text style={[styles.bodyText, { textAlign: "right" }]}>{item.manDays}</Text>
     </View>
     <View style={[styles.gridCol, styles.rateCol]}>
-      <Text style={[styles.bodyText, styles.monoText]}>
+      <Text style={[styles.bodyText, styles.monoText, { textAlign: "right" }]}>
         {currency(item.rate || 0, currencyCode)}
       </Text>
     </View>
     <View style={[styles.gridCol, styles.amountCol]}>
-      <Text style={[styles.bodyText, styles.monoText]}>
+      <Text style={[styles.bodyText, styles.monoText, { textAlign: "right" }]}>
         {currency((item.manDays || 0) * (item.rate || 0), currencyCode)}
       </Text>
     </View>
@@ -462,7 +482,13 @@ export default function InvoiceGrid({
           currencyCode={currencyCode}
         />
       )}
-      <TotalsSection
+      <DynamicTotalsSection
+        columns={columns || [
+          { id: "desc", key: "description", label: "Description", type: "text", order: 0, required: true },
+          { id: "qty", key: "quantity", label: "Quantity", type: "number", order: 1, required: true },
+          { id: "rate", key: "unitPrice", label: "Rate", type: "currency", order: 2, required: true },
+          { id: "total", key: "total", label: "Total", type: "currency", order: 3, required: true }
+        ]}
         subtotal={calculatedSubtotal}
         tax={tax}
         total={calculatedTotal}
