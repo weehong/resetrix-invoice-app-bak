@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 
 import { InvoiceFormData } from "../schemas/invoice-schema";
@@ -80,22 +78,7 @@ export function ClientInformationForm({
             )}
           </div>
 
-          <div>
-            <label className="mb-1 block text-sm font-medium">
-              Postal Code <span className="text-gray-500">(Optional)</span>
-            </label>
-            <input
-              type="text"
-              placeholder="Postal Code (Optional)"
-              {...register("client.postalCode")}
-              className="w-full rounded border p-2 text-sm"
-            />
-            {errors.client?.postalCode && (
-              <p className="mt-1 text-sm text-red-600">
-                {errors.client.postalCode.message}
-              </p>
-            )}
-          </div>
+
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="mb-1 block text-sm font-medium">

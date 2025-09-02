@@ -27,7 +27,7 @@ function convertInvoiceData(data: InvoiceData, showPaymentSchedule: boolean = tr
       registrationNumber: data.company.registrationNumber || '',
       address: data.company.address,
       city: data.company.city || '',
-      postal_code: data.company.postalCode || '',
+
       email: data.company.email,
       phone: data.company.phone,
     },
@@ -37,7 +37,7 @@ function convertInvoiceData(data: InvoiceData, showPaymentSchedule: boolean = tr
       registrationNumber: data.client.registrationNumber || '',
       address: data.client.address || '',
       city: data.client.city || '',
-      postal_code: data.client.postalCode || '',
+
       email: data.client.email || '',
       phone: data.client.phone || '',
     },

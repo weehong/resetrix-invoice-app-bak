@@ -57,9 +57,6 @@ const AddressBlock = ({
       <Text style={[styles.text, styles]}>{address.company}</Text>
     )}
     <Text style={styles.text}>{address.address}</Text>
-    {address.postal_code && (
-      <Text style={styles.text}>{address.postal_code}</Text>
-    )}
     {address.email && <Text style={styles.text}>{address.email}</Text>}
     {address.phone && <Text style={styles.text}>{address.phone}</Text>}
   </View>

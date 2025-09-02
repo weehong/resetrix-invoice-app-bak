@@ -88,9 +88,8 @@ export function CompanyInformationForm({
                 type="text"
                 placeholder="Company Owner Name (Optional)"
                 {...register("company.ownerName")}
-                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
-                  errors.company?.ownerName ? "error-input" : ""
-                }`}
+                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${errors.company?.ownerName ? "error-input" : ""
+                  }`}
               />
               {errors.company?.ownerName && (
                 <p className="text-error-600 mt-2 text-sm">
@@ -112,9 +111,8 @@ export function CompanyInformationForm({
                 type="text"
                 placeholder="Company Name"
                 {...register("company.name")}
-                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
-                  errors.company?.name ? "error-input" : ""
-                }`}
+                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${errors.company?.name ? "error-input" : ""
+                  }`}
               />
               {errors.company?.name && (
                 <p className="text-error-600 mt-2 text-sm">
@@ -137,9 +135,8 @@ export function CompanyInformationForm({
                 type="text"
                 placeholder="Company Registration Number (Optional)"
                 {...register("company.registrationNumber")}
-                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
-                  errors.company?.registrationNumber ? "error-input" : ""
-                }`}
+                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${errors.company?.registrationNumber ? "error-input" : ""
+                  }`}
               />
               {errors.company?.registrationNumber && (
                 <p className="text-error-600 mt-2 text-sm">
@@ -162,9 +159,8 @@ export function CompanyInformationForm({
                 placeholder="Company Address&#10;(Multi-line supported)"
                 {...register("company.address")}
                 rows={3}
-                className={`focus:border-accent-500 focus:ring-accent-500 block w-full resize-y rounded-md border-gray-300 text-sm shadow-sm ${
-                  errors.company?.address ? "error-input" : ""
-                }`}
+                className={`focus:border-accent-500 focus:ring-accent-500 block w-full resize-y rounded-md border-gray-300 text-sm shadow-sm ${errors.company?.address ? "error-input" : ""
+                  }`}
               />
               {errors.company?.address && (
                 <p className="text-error-600 mt-2 text-sm">
@@ -174,30 +170,7 @@ export function CompanyInformationForm({
             </div>
           </div>
 
-          <div>
-            <label
-              htmlFor="companyPostalCode"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Postal Code <span className="text-gray-500">(Optional)</span>
-            </label>
-            <div className="mt-1">
-              <input
-                id="companyPostalCode"
-                type="text"
-                placeholder="Postal Code (Optional)"
-                {...register("company.postalCode")}
-                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
-                  errors.company?.postalCode ? "error-input" : ""
-                }`}
-              />
-              {errors.company?.postalCode && (
-                <p className="text-error-600 mt-2 text-sm">
-                  {errors.company.postalCode.message}
-                </p>
-              )}
-            </div>
-          </div>
+
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
               <label
@@ -212,9 +185,8 @@ export function CompanyInformationForm({
                   type="email"
                   placeholder="Email"
                   {...register("company.email")}
-                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
-                    errors.company?.email ? "error-input" : ""
-                  }`}
+                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${errors.company?.email ? "error-input" : ""
+                    }`}
                 />
                 {errors.company?.email && (
                   <p className="text-error-600 mt-2 text-sm">
@@ -236,9 +208,8 @@ export function CompanyInformationForm({
                   type="text"
                   placeholder="Phone"
                   {...register("company.phone")}
-                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${
-                    errors.company?.phone ? "error-input" : ""
-                  }`}
+                  className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${errors.company?.phone ? "error-input" : ""
+                    }`}
                 />
                 {errors.company?.phone && (
                   <p className="text-error-600 mt-2 text-sm">

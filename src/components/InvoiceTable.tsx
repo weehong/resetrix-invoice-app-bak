@@ -198,7 +198,7 @@ const PaymentSchedule = ({
   </>
 );
 
-// Dynamic GridHeader that supports custom columns
+// Dynamic GridHeader that supports custom columns with 3:1:1:1... ratio
 const DynamicGridHeader = ({
   columns,
   currencyCode = "SGD",
@@ -210,8 +210,11 @@ const DynamicGridHeader = ({
 
   return (
     <View style={styles.gridHeader}>
-      {sortedColumns.map((column) => (
-        <View key={column.id} style={[styles.gridCol, { flex: 1 }]}>
+      {sortedColumns.map((column, index) => (
+        <View key={column.id} style={[
+          styles.gridCol,
+          { flex: index === 0 ? 3 : 1 } // First column gets 3x width, others get 1x
+        ]}>
           <Text style={styles.headerText}>
             {column.label.toUpperCase()}
             {column.type === "currency" ? ` (${currencyCode})` : ""}
@@ -359,8 +362,11 @@ const DynamicGridRow = ({
 
   return (
     <View style={styles.gridRow}>
-      {sortedColumns.map((column) => (
-        <View key={column.id} style={[styles.gridCol, { flex: 1 }]}>
+      {sortedColumns.map((column, index) => (
+        <View key={column.id} style={[
+          styles.gridCol,
+          { flex: index === 0 ? 3 : 1 } // First column gets 3x width, others get 1x
+        ]}>
           <Text style={[
             styles.bodyText,
             ...(column.type === "currency" || column.type === "number" ? [styles.monoText] : [])

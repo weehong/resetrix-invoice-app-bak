@@ -41,7 +41,6 @@ export interface CompanyInfo {
   city?: string;
   state?: string;
   country?: string;
-  postalCode?: string;
   phone: string;
   email: string;
   website?: string;
@@ -57,7 +56,6 @@ export interface ClientInfo {
   city?: string;
   state?: string;
   country?: string;
-  postalCode?: string;
   phone?: string;
   email?: string;
   contactPerson?: string;
@@ -112,7 +110,6 @@ export type AddressInfo = {
   registrationNumber?: string;
   address: string;
   city: string;
-  postal_code: string;
   email?: string;
   phone?: string;
 };
