@@ -19,9 +19,23 @@ const styles = StyleSheet.create({
   pageNumber: {
     position: "absolute",
     fontSize: 8,
-    bottom: 24,
+    bottom: 0,
     right: 24,
     color: colors.darkText,
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    paddingBottom: 12,
+  },
+  footer: {
+    position: "absolute",
+    fontSize: 8,
+    bottom: 0,
+    left: 24,
+    textAlign: "left",
+    color: colors.darkText,
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    paddingBottom: 12,
   },
 });
 
@@ -44,6 +58,7 @@ export default function InvoiceDocument({
         <InvoiceHeader
           invoiceNumber={invoice.invoiceNumber}
           logo={invoice.logo}
+          invoiceDate={invoice.invoiceDate}
         />
         <AddressSection from={invoice.owner} to={invoice.client} />
         <InvoiceTable
@@ -72,6 +87,9 @@ export default function InvoiceDocument({
             `Page ${pageNumber} of ${totalPages}`
           }
         />
+        <Text style={styles.footer}>
+          THIS IS A COMPUTER GENERATED INVOICE. NO SIGNATURE IS REQUIRED.
+        </Text>
       </Page>
     </Document>
   );

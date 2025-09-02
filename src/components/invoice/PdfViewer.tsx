@@ -75,9 +75,9 @@ export default function PdfViewer({
     items: initialData?.items || defaultInvoiceData.items,
     payment: initialData?.payment
       ? {
-          ...defaultInvoiceData.payment,
-          ...initialData.payment,
-        }
+        ...defaultInvoiceData.payment,
+        ...initialData.payment,
+      }
       : defaultInvoiceData.payment,
     paymentSchedule:
       initialData?.paymentSchedule || defaultInvoiceData.paymentSchedule,

@@ -21,7 +21,6 @@ export const validateInvoiceData = (data: Partial<InvoiceData>): string[] => {
 
   if (!data.invoiceNumber) errors.push('Invoice number is required');
   if (!data.invoiceDate) errors.push('Invoice date is required');
-  if (!data.dueDate) errors.push('Due date is required');
   if (!data.company?.name) errors.push('Company name is required');
   if (!data.client?.name) errors.push('Client name is required');
   if (!data.items || data.items.length === 0) errors.push('At least one item is required');

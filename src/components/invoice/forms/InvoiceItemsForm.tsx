@@ -133,11 +133,17 @@ export function InvoiceItemsForm({
               className="grid grid-cols-12 items-center gap-2"
             >
               <div className="col-span-5">
-                <input
-                  type="text"
+                <textarea
+                  rows={1}
                   placeholder="Description"
                   {...register(`items.${index}.description`)}
-                  className="w-full rounded border p-2 text-sm"
+                  className="w-full rounded border p-2 text-sm resize-y min-h-[2.5rem]"
+                  style={{ overflow: 'hidden' }}
+                  onInput={(e) => {
+                    const target = e.target as HTMLTextAreaElement;
+                    target.style.height = 'auto';
+                    target.style.height = target.scrollHeight + 'px';
+                  }}
                 />
                 {errors.items?.[index]?.description && (
                   <p className="mt-1 text-xs text-red-600">
@@ -256,9 +262,8 @@ export function InvoiceItemsForm({
                           return clampedValue / 100;
                         },
                       })}
-                      className={`rounded border p-1 text-sm ${
-                        errors.tax?.rate ? "border-red-500" : ""
-                      }`}
+                      className={`rounded border p-1 text-sm ${errors.tax?.rate ? "border-red-500" : ""
+                        }`}
                       placeholder="7"
                       defaultValue={
                         watchedTax?.rate

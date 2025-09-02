@@ -4,7 +4,7 @@ import { z } from "zod";
 export const invoiceSchema = z.object({
   invoiceNumber: z.string().min(1, "Invoice number is required"),
   invoiceDate: z.string().min(1, "Invoice date is required"),
-  dueDate: z.string().min(1, "Due date is required"),
+
   currency: z.string().default("USD"),
   status: z.enum(["draft", "sent", "paid", "overdue", "cancelled"]).optional(),
   company: z.object({

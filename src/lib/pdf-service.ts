@@ -46,7 +46,7 @@ function convertInvoiceData(data: InvoiceData, showPaymentSchedule: boolean = tr
       terms: data.payment?.terms,
       method: data.payment?.method,
       bankDetails: data.payment?.bankDetails,
-      dueDate: data.payment?.dueDate || data.dueDate,
+      dueDate: data.payment?.dueDate,
       bankName: data.payment?.bankDetails?.bankName || 'Bank Name',
       swiftCode: data.payment?.bankDetails?.swiftCode || 'SWIFT',
       accountNumber: data.payment?.bankDetails?.accountNumber || 'Account',

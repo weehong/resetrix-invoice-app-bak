@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   logo: {
-    width: 50,
+    width: 150,
     objectFit: "contain",
   },
   invoiceInfo: {
@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
 interface InvoiceHeaderProps {
   invoiceNumber: string;
   logo: string | undefined;
+  invoiceDate?: string;
 }
 
 const Logo = ({ logo }: { logo: string | undefined }) => (
@@ -44,20 +45,38 @@ const Logo = ({ logo }: { logo: string | undefined }) => (
   </View>
 );
 
-const InvoiceInfo = ({ invoiceNumber }: { invoiceNumber: string }) => (
-  <View style={styles.invoiceInfo}>
-    <Text style={styles.invoiceTitle}>INVOICE</Text>
-    <Text style={styles.invoiceNumber}>{invoiceNumber}</Text>
-  </View>
-);
+const InvoiceInfo = ({
+  invoiceNumber,
+  invoiceDate
+}: {
+  invoiceNumber: string;
+  invoiceDate?: string;
+}) => {
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
+    return new Date(dateString).toLocaleDateString('en-GB').replace(/\//g, '-');
+  };
+
+  return (
+    <View style={styles.invoiceInfo}>
+      <Text style={styles.invoiceTitle}>INVOICE</Text>
+      <Text style={styles.invoiceNumber}>{invoiceNumber}</Text>
+      <Text style={styles.invoiceNumber}>{formatDate(invoiceDate)}</Text>
+    </View>
+  );
+};
 
 export default function InvoiceHeader({
   invoiceNumber,
   logo,
+  invoiceDate,
 }: InvoiceHeaderProps) {
   return (
     <View style={styles.container}>
-      <InvoiceInfo invoiceNumber={invoiceNumber} />
+      <InvoiceInfo
+        invoiceNumber={invoiceNumber}
+        invoiceDate={invoiceDate}
+      />
       <Logo logo={logo} />
     </View>
   );

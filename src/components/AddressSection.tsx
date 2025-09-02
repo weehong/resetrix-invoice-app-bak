@@ -26,11 +26,6 @@ const styles = StyleSheet.create({
   },
   name: {
     fontWeight: "bold",
-    marginBottom: 2,
-  },
-  company: {
-    fontStyle: "italic",
-    marginBottom: 2,
   },
 });
 
@@ -59,7 +54,7 @@ const AddressBlock = ({
       </Text>
     )}
     {address.name !== address.company && (
-      <Text style={[styles.text, styles.company]}>{address.company}</Text>
+      <Text style={[styles.text, styles]}>{address.company}</Text>
     )}
     <Text style={styles.text}>{address.address}</Text>
     {address.postal_code && (

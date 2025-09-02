@@ -108,7 +108,7 @@ export type AddressInfo = {
 export interface InvoiceData {
   invoiceNumber: string;
   invoiceDate: string;
-  dueDate: string;
+
   currency: string;
   issueDate?: string;
   poNumber?: string;
