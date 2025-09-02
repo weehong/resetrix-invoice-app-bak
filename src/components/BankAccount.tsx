@@ -61,13 +61,6 @@ export default function BankDetails({
     <View style={styles.section}>
       <Text style={styles.heading}>Bank Transfer Details</Text>
 
-      {shouldShowField(bankName) && (
-        <View style={styles.detailRow}>
-          <Text style={styles.label}>Bank Name</Text>
-          <Text style={styles.value}>{bankName}</Text>
-        </View>
-      )}
-
       {shouldShowField(accountName) && (
         <View style={styles.detailRow}>
           <Text style={styles.label}>Account Name</Text>
@@ -79,6 +72,13 @@ export default function BankDetails({
         <View style={styles.detailRow}>
           <Text style={styles.label}>Account Number</Text>
           <Text style={[styles.value]}>{accountNumber}</Text>
+        </View>
+      )}
+
+      {shouldShowField(bankName) && (
+        <View style={styles.detailRow}>
+          <Text style={styles.label}>Bank Name</Text>
+          <Text style={styles.value}>{bankName}</Text>
         </View>
       )}
 

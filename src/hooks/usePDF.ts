@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { PDFService } from '@/lib/pdf-service';
-import { InvoiceData } from '@/types/invoice';
+import { InvoiceData } from '@/types/invoice-updated';
 
 export const usePDF = () => {
   const [isGenerating, setIsGenerating] = useState(false);

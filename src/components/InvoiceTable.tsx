@@ -4,9 +4,45 @@ import { colors } from "@/helper/color";
 import currency from "@/helper/currency";
 import type {
   ColumnHeaders,
+  ColumnConfig,
   InvoiceItem,
   PaymentScheduleEntry,
 } from "@/types/invoice-updated";
+
+// Utility function to convert dynamic columns to legacy columnHeaders format
+const convertColumnsToHeaders = (columns?: ColumnConfig[]): ColumnHeaders => {
+  if (!columns || columns.length === 0) {
+    return {
+      description: "DESCRIPTION",
+      quantity: "QUANTITY",
+      rate: "RATE",
+      total: "TOTAL",
+    };
+  }
+
+  const sortedColumns = [...columns].sort((a, b) => a.order - b.order);
+  const headers: ColumnHeaders = {
+    description: "DESCRIPTION",
+    quantity: "QUANTITY",
+    rate: "RATE",
+    total: "TOTAL",
+  };
+
+  // Map dynamic columns to legacy headers based on their keys
+  sortedColumns.forEach(column => {
+    if (column.key === "description") {
+      headers.description = column.label.toUpperCase();
+    } else if (column.key === "quantity") {
+      headers.quantity = column.label.toUpperCase();
+    } else if (column.key === "unitPrice") {
+      headers.rate = column.label.toUpperCase();
+    } else if (column.key === "total") {
+      headers.total = column.label.toUpperCase();
+    }
+  });
+
+  return headers;
+};
 
 const styles = StyleSheet.create({
   grid: {
@@ -94,6 +130,7 @@ interface InvoiceGridProps {
   showPaymentSchedule: boolean;
   paymentSchedule?: PaymentScheduleEntry[];
   columnHeaders?: ColumnHeaders;
+  columns?: ColumnConfig[]; // Add dynamic columns support
   currency?: string;
   subtotal?: number;
   tax?: {
@@ -161,6 +198,31 @@ const PaymentSchedule = ({
   </>
 );
 
+// Dynamic GridHeader that supports custom columns
+const DynamicGridHeader = ({
+  columns,
+  currencyCode = "SGD",
+}: {
+  columns: ColumnConfig[];
+  currencyCode?: string;
+}) => {
+  const sortedColumns = [...columns].sort((a, b) => a.order - b.order);
+
+  return (
+    <View style={styles.gridHeader}>
+      {sortedColumns.map((column) => (
+        <View key={column.id} style={[styles.gridCol, { flex: 1 }]}>
+          <Text style={styles.headerText}>
+            {column.label.toUpperCase()}
+            {column.type === "currency" ? ` (${currencyCode})` : ""}
+          </Text>
+        </View>
+      ))}
+    </View>
+  );
+};
+
+// Legacy GridHeader for backward compatibility
 const GridHeader = ({
   columnHeaders = {
     description: "DESCRIPTION",
@@ -261,6 +323,57 @@ const TotalsSection = ({
   </>
 );
 
+// Dynamic GridRow that supports custom columns
+const DynamicGridRow = ({
+  item,
+  columns,
+  currencyCode = "SGD",
+}: {
+  item: InvoiceItem;
+  columns: ColumnConfig[];
+  currencyCode?: string;
+}) => {
+  const sortedColumns = [...columns].sort((a, b) => a.order - b.order);
+
+  const getColumnValue = (column: ColumnConfig) => {
+    switch (column.key) {
+      case "description":
+        return item.description || "";
+      case "quantity":
+        return item.quantity?.toString() || "0";
+      case "unitPrice":
+        return column.type === "currency"
+          ? currency(item.unitPrice || 0, currencyCode)
+          : (item.unitPrice || 0).toString();
+      case "total":
+        return currency(item.total || 0, currencyCode);
+      default:
+        // Handle custom fields
+        const customValue = item.customFields?.[column.key];
+        if (column.type === "currency" && typeof customValue === "number") {
+          return currency(customValue, currencyCode);
+        }
+        return customValue?.toString() || "";
+    }
+  };
+
+  return (
+    <View style={styles.gridRow}>
+      {sortedColumns.map((column) => (
+        <View key={column.id} style={[styles.gridCol, { flex: 1 }]}>
+          <Text style={[
+            styles.bodyText,
+            ...(column.type === "currency" || column.type === "number" ? [styles.monoText] : [])
+          ]}>
+            {getColumnValue(column)}
+          </Text>
+        </View>
+      ))}
+    </View>
+  );
+};
+
+// Legacy GridRow for backward compatibility
 const GridRow = ({
   item,
   currencyCode = "SGD",
@@ -293,11 +406,21 @@ export default function InvoiceGrid({
   showPaymentSchedule,
   paymentSchedule = [],
   columnHeaders,
+  columns,
   currency: currencyCode = "SGD",
   subtotal = 0,
   tax,
   total = 0,
 }: InvoiceGridProps) {
+  // Use dynamic columns if available, otherwise fall back to legacy columnHeaders
+  const effectiveColumnHeaders = columns
+    ? convertColumnsToHeaders(columns)
+    : columnHeaders || {
+      description: "DESCRIPTION",
+      quantity: "QUANTITY",
+      rate: "RATE",
+      total: "TOTAL",
+    };
   // Calculate subtotal from items if not provided
   const calculatedSubtotal =
     subtotal ||
@@ -312,10 +435,21 @@ export default function InvoiceGrid({
 
   return (
     <View style={styles.grid}>
-      <GridHeader columnHeaders={columnHeaders} currencyCode={currencyCode} />
-      {items.map((item, index) => (
-        <GridRow key={index} item={item} currencyCode={currencyCode} />
-      ))}
+      {columns ? (
+        <>
+          <DynamicGridHeader columns={columns} currencyCode={currencyCode} />
+          {items.map((item, index) => (
+            <DynamicGridRow key={index} item={item} columns={columns} currencyCode={currencyCode} />
+          ))}
+        </>
+      ) : (
+        <>
+          <GridHeader columnHeaders={effectiveColumnHeaders} currencyCode={currencyCode} />
+          {items.map((item, index) => (
+            <GridRow key={index} item={item} currencyCode={currencyCode} />
+          ))}
+        </>
+      )}
       {showPaymentSchedule && paymentSchedule.length > 0 && (
         <PaymentSchedule
           paymentSchedule={paymentSchedule}

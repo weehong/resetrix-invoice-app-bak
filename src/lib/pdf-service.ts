@@ -2,7 +2,16 @@ import React from 'react';
 import { pdf } from '@react-pdf/renderer';
 import InvoiceDocument from '@/components/InvoiceDocument';
 import { InvoiceData, InvoiceProps } from '@/types/invoice-updated';
+import { InvoiceData as LegacyInvoiceData } from '@/types/invoice';
 import { loadFonts } from '@/helper/font';
+
+// Convert updated InvoiceData to legacy format for compatibility
+function convertToLegacyFormat(data: InvoiceData): LegacyInvoiceData {
+  return {
+    ...data,
+    dueDate: data.payment?.dueDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+  } as LegacyInvoiceData;
+}
 
 // Convert InvoiceData to InvoiceProps format
 function convertInvoiceData(data: InvoiceData, showPaymentSchedule: boolean = true): InvoiceProps {
@@ -46,7 +55,7 @@ function convertInvoiceData(data: InvoiceData, showPaymentSchedule: boolean = tr
       terms: data.payment?.terms,
       method: data.payment?.method,
       bankDetails: data.payment?.bankDetails,
-      dueDate: data.payment?.dueDate,
+      dueDate: data.payment?.dueDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       bankName: data.payment?.bankDetails?.bankName || 'Bank Name',
       swiftCode: data.payment?.bankDetails?.swiftCode || 'SWIFT',
       accountNumber: data.payment?.bankDetails?.accountNumber || 'Account',
@@ -54,6 +63,7 @@ function convertInvoiceData(data: InvoiceData, showPaymentSchedule: boolean = tr
     },
     paymentSchedule: data.paymentSchedule || [],
     columnHeaders: data.columnHeaders,
+    columns: data.columns, // Pass dynamic columns configuration
     subtotal: data.subtotal,
     tax: data.tax,
     total: data.total,

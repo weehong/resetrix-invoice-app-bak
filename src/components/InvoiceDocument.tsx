@@ -66,6 +66,7 @@ export default function InvoiceDocument({
           showPaymentSchedule={invoice.showPaymentSchedule}
           paymentSchedule={invoice.paymentSchedule}
           columnHeaders={invoice.columnHeaders}
+          columns={invoice.columns}
           currency={invoice.currency}
           subtotal={invoice.subtotal}
           tax={invoice.tax}

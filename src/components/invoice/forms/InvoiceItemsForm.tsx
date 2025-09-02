@@ -14,7 +14,7 @@ import {
 } from "react-hook-form";
 
 import { CurrencyDisplay } from "@/components/CurrencyDisplay";
-import { InvoiceItem } from "@/types/invoice-updated";
+import { ColumnConfig, setColumnValue } from "@/utils/column-management";
 
 import { InvoiceFormData } from "../schemas/invoice-schema";
 
@@ -47,6 +47,10 @@ export function InvoiceItemsForm({
   const watchedItems = watch("items");
   const watchedTax = watch("tax");
   const watchedCurrency = watch("currency");
+  const watchedColumns = watch("columns") || [];
+
+  // Sort columns by order for consistent display
+  const sortedColumns = [...watchedColumns].sort((a, b) => a.order - b.order);
 
   // Calculate item total based on quantity and rate
   const calculateItemTotal = (quantity: number, rate: number) => {
@@ -87,14 +91,11 @@ export function InvoiceItemsForm({
 
   const updateItem = (
     index: number,
-    field: keyof InvoiceItem,
+    field: string,
     value: string | number,
   ) => {
     const currentItems = getValues("items");
-    const updatedItem = {
-      ...currentItems[index],
-      [field]: value,
-    };
+    const updatedItem = setColumnValue(currentItems[index], { key: field } as ColumnConfig, value);
 
     // Calculate total for this item if quantity or unitPrice changed
     if (field === "quantity" || field === "unitPrice") {
@@ -107,6 +108,97 @@ export function InvoiceItemsForm({
 
     // Update the specific item
     setValue(`items.${index}`, updatedItem);
+  };
+
+  const renderColumnInput = (column: ColumnConfig, index: number) => {
+    const fieldName = column.key === "unitPrice" ? `items.${index}.unitPrice` :
+      column.key === "quantity" ? `items.${index}.quantity` :
+        column.key === "description" ? `items.${index}.description` :
+          column.key === "total" ? `items.${index}.total` :
+            `items.${index}.customFields.${column.key}`;
+
+    const error = column.key === "description" ? errors.items?.[index]?.description :
+      column.key === "quantity" ? errors.items?.[index]?.quantity :
+        column.key === "unitPrice" ? errors.items?.[index]?.unitPrice :
+          null;
+
+    if (column.key === "total") {
+      // Total column is read-only and calculated
+      return (
+        <div className="p-2 text-sm font-medium">
+          <CurrencyDisplay
+            amount={calculateItemTotal(
+              watchedItems?.[index]?.quantity || 0,
+              watchedItems?.[index]?.unitPrice || 0,
+            )}
+            currency={watchedCurrency}
+          />
+        </div>
+      );
+    }
+
+    if (column.key === "description") {
+      return (
+        <div>
+          <textarea
+            rows={1}
+            placeholder={column.label}
+            {...register(fieldName as any)}
+            className="w-full rounded border p-2 text-sm resize-y min-h-[2.5rem]"
+            style={{ overflow: 'hidden' }}
+            onInput={(e) => {
+              const target = e.target as HTMLTextAreaElement;
+              target.style.height = 'auto';
+              target.style.height = target.scrollHeight + 'px';
+            }}
+          />
+          {error && (
+            <p className="mt-1 text-xs text-red-600">
+              {error.message}
+            </p>
+          )}
+        </div>
+      );
+    }
+
+    if (column.type === "number" || column.type === "currency") {
+      return (
+        <div>
+          <input
+            type="number"
+            step={column.type === "currency" ? "0.01" : "1"}
+            placeholder={column.label}
+            {...register(fieldName as any, {
+              valueAsNumber: true,
+              onChange: (e) =>
+                updateItem(
+                  index,
+                  column.key,
+                  parseFloat(e.target.value) || 0,
+                ),
+            })}
+            className="w-full rounded border p-2 text-sm"
+          />
+          {error && (
+            <p className="mt-1 text-xs text-red-600">
+              {error.message}
+            </p>
+          )}
+        </div>
+      );
+    }
+
+    // Default text input
+    return (
+      <div>
+        <input
+          type="text"
+          placeholder={column.label}
+          {...register(fieldName as any)}
+          className="w-full rounded border p-2 text-sm"
+        />
+      </div>
+    );
   };
 
   const removeItem = (index: number) => {
@@ -126,87 +218,34 @@ export function InvoiceItemsForm({
         </div>
       </div>
       <div className="mt-8">
+        {/* Column Headers */}
+        <div className="grid gap-2 mb-3 font-medium text-sm text-gray-700"
+          style={{ gridTemplateColumns: `repeat(${sortedColumns.length}, 1fr) auto` }}>
+          {sortedColumns.map((column) => (
+            <div key={column.id} className="px-2 py-1">
+              {column.label}
+            </div>
+          ))}
+          <div className="px-2 py-1">Actions</div>
+        </div>
+
+        {/* Invoice Items */}
         <div className="space-y-3">
           {fields.map((field, index) => (
             <div
               key={field.id}
-              className="grid grid-cols-12 items-center gap-2"
+              className="grid items-center gap-2"
+              style={{ gridTemplateColumns: `repeat(${sortedColumns.length}, 1fr) auto` }}
             >
-              <div className="col-span-5">
-                <textarea
-                  rows={1}
-                  placeholder="Description"
-                  {...register(`items.${index}.description`)}
-                  className="w-full rounded border p-2 text-sm resize-y min-h-[2.5rem]"
-                  style={{ overflow: 'hidden' }}
-                  onInput={(e) => {
-                    const target = e.target as HTMLTextAreaElement;
-                    target.style.height = 'auto';
-                    target.style.height = target.scrollHeight + 'px';
-                  }}
-                />
-                {errors.items?.[index]?.description && (
-                  <p className="mt-1 text-xs text-red-600">
-                    {errors.items[index]?.description?.message}
-                  </p>
-                )}
-              </div>
-              <div className="col-span-2">
-                <input
-                  type="number"
-                  placeholder="Qty"
-                  {...register(`items.${index}.quantity`, {
-                    valueAsNumber: true,
-                    onChange: (e) =>
-                      updateItem(
-                        index,
-                        "quantity",
-                        parseInt(e.target.value) || 0,
-                      ),
-                  })}
-                  className="w-full rounded border p-2 text-sm"
-                />
-                {errors.items?.[index]?.quantity && (
-                  <p className="mt-1 text-xs text-red-600">
-                    {errors.items[index]?.quantity?.message}
-                  </p>
-                )}
-              </div>
-              <div className="col-span-2">
-                <input
-                  type="number"
-                  step="0.01"
-                  placeholder="Price"
-                  {...register(`items.${index}.unitPrice`, {
-                    valueAsNumber: true,
-                    onChange: (e) =>
-                      updateItem(
-                        index,
-                        "unitPrice",
-                        parseFloat(e.target.value) || 0,
-                      ),
-                  })}
-                  className="w-full rounded border p-2 text-sm"
-                />
-                {errors.items?.[index]?.unitPrice && (
-                  <p className="mt-1 text-xs text-red-600">
-                    {errors.items[index]?.unitPrice?.message}
-                  </p>
-                )}
-              </div>
-              <div className="col-span-2 p-2 text-sm font-medium">
-                <CurrencyDisplay
-                  amount={calculateItemTotal(
-                    watchedItems?.[index]?.quantity || 0,
-                    watchedItems?.[index]?.unitPrice || 0,
-                  )}
-                  currency={watchedCurrency}
-                />
-              </div>
+              {sortedColumns.map((column) => (
+                <div key={column.id}>
+                  {renderColumnInput(column, index)}
+                </div>
+              ))}
               <button
                 type="button"
                 onClick={() => removeItem(index)}
-                className="bg-primary-700 col-span-1 rounded px-2 py-1 text-sm text-white"
+                className="bg-primary-700 rounded px-2 py-1 text-sm text-white hover:bg-primary-800"
               >
                 ×
               </button>

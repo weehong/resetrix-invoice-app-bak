@@ -7,6 +7,7 @@ export interface InvoiceItem {
   section?: string;
   manDays?: number;
   rate?: number;
+  customFields?: Record<string, string | number>;
 }
 
 export interface PaymentScheduleEntry {
@@ -21,6 +22,16 @@ export interface ColumnHeaders {
   quantity: string;
   rate: string;
   total: string;
+}
+
+export interface ColumnConfig {
+  id: string;
+  key: string;
+  label: string;
+  type: "text" | "number" | "currency";
+  required: boolean;
+  order: number;
+  width?: string;
 }
 
 export interface CompanyInfo {
@@ -89,6 +100,7 @@ export type InvoiceProps = {
   paymentInfo: PaymentInfo;
   paymentSchedule?: PaymentScheduleEntry[];
   columnHeaders?: ColumnHeaders;
+  columns?: ColumnConfig[]; // Add dynamic columns support
   subtotal: number;
   tax: TaxInfo;
   total: number;
@@ -123,6 +135,7 @@ export interface InvoiceData {
   paymentTerms?: string;
   payment?: PaymentInfo;
   paymentSchedule?: PaymentScheduleEntry[];
+  columns?: ColumnConfig[];
   columnHeaders?: ColumnHeaders;
   locale?: string;
 }

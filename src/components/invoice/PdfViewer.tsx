@@ -6,6 +6,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 
 import { usePDF } from "@/hooks/usePDF";
 import { InvoiceData } from "@/types/invoice-updated";
+import { getDefaultColumns } from "@/utils/column-management";
 
 // Import extracted components and utilities
 import { ActionButtons } from "./ActionButtons";
@@ -51,7 +52,7 @@ export default function PdfViewer({
   initialData = {},
   showPaymentSchedule: initialShowPaymentSchedule = false,
   onDataChange,
-  className = "",
+  className: _className = "",
 }: PdfViewerProps) {
   const { previewPDF, downloadPDF, isGenerating, error } = usePDF();
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
@@ -64,6 +65,7 @@ export default function PdfViewer({
     ...defaultInvoiceData,
     ...initialData,
     currency: initialData?.currency || defaultInvoiceData.currency,
+    columns: initialData?.columns || defaultInvoiceData.columns || getDefaultColumns(),
     company: {
       ...defaultInvoiceData.company,
       ...initialData?.company,
@@ -176,7 +178,7 @@ export default function PdfViewer({
     try {
       const formData = getValues();
       const url = await previewPDF(
-        formData as InvoiceData,
+        formData as unknown as InvoiceData,
         showPaymentSchedule,
       );
       setPdfUrl(url);
@@ -189,7 +191,7 @@ export default function PdfViewer({
     try {
       const formData = getValues();
       await downloadPDF(
-        formData as InvoiceData,
+        formData as unknown as InvoiceData,
         `invoice-${formData.invoiceNumber}.pdf`,
         showPaymentSchedule,
       );
@@ -221,7 +223,7 @@ export default function PdfViewer({
       <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
         {/* Invoice Form */}
         <div className="space-y-6">
-          <InvoiceDetailsForm register={register} errors={errors} />
+          <InvoiceDetailsForm register={register} errors={errors} setValue={setValue} watch={watch} />
 
           <CompanyInformationForm
             register={register}

@@ -34,6 +34,8 @@ export const invoiceSchema = z.object({
         quantity: z.number().min(1, "Quantity must be at least 1"),
         unitPrice: z.number().min(0, "Unit price must be non-negative"),
         total: z.number(),
+        // Dynamic fields for custom columns
+        customFields: z.record(z.union([z.string(), z.number()])).optional(),
       }),
     )
     .min(1, "At least one item is required"),
@@ -89,7 +91,25 @@ export const invoiceSchema = z.object({
     ),
   notes: z.string().optional(),
 
-  // Customizable column headers for PDF table
+  // Dynamic column configuration for table
+  columns: z.array(
+    z.object({
+      id: z.string(),
+      key: z.string().min(1, "Column key is required"),
+      label: z.string().min(1, "Column label is required"),
+      type: z.enum(["text", "number", "currency"]).default("text"),
+      required: z.boolean().default(false),
+      order: z.number(),
+      width: z.string().optional(), // CSS width value like "200px" or "20%"
+    })
+  ).default([
+    { id: "desc", key: "description", label: "Description", type: "text", required: true, order: 0 },
+    { id: "qty", key: "quantity", label: "Quantity", type: "number", required: true, order: 1 },
+    { id: "rate", key: "unitPrice", label: "Rate", type: "currency", required: true, order: 2 },
+    { id: "total", key: "total", label: "Total", type: "currency", required: false, order: 3 },
+  ]),
+
+  // Legacy column headers for backward compatibility
   columnHeaders: z.object({
     description: z.string().default("Description"),
     quantity: z.string().default("Quantity"),

@@ -1,4 +1,5 @@
 import { InvoiceData } from "@/types/invoice-updated";
+import { getDefaultColumns } from "@/utils/column-management";
 
 // Default invoice data template
 export const defaultInvoiceData: InvoiceData = {
@@ -81,6 +82,11 @@ export const defaultInvoiceData: InvoiceData = {
     },
   ],
   notes: "Thank you for your business!",
+
+  // Default column configuration
+  columns: getDefaultColumns(),
+
+  // Legacy column headers for backward compatibility
   columnHeaders: {
     description: "Description",
     quantity: "Quantity",
