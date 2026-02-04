@@ -1,6 +1,6 @@
-import { formatCurrency } from "@/utils/currency";
+import { formatNumber } from "../utils/currency";
 
 export default function currency(amount: number, currencyCode: string = "SGD") {
-  // Use the new currency utility for proper formatting
-  return formatCurrency(amount, currencyCode);
+  // Use the new number formatting utility without currency symbol
+  return formatNumber(amount, currencyCode);
 }

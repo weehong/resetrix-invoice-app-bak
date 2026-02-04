@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 
 interface ActionButtonsProps {
   onGeneratePreview: () => void;
@@ -8,6 +8,9 @@ interface ActionButtonsProps {
   isGenerating: boolean;
   isDisabled: boolean;
   error?: string | null;
+  onExportJson?: () => void;
+  onImportJson?: (file: File) => void;
+  onClearDraft?: () => void;
 }
 
 /**
@@ -21,7 +24,21 @@ export function ActionButtons({
   isGenerating,
   isDisabled,
   error,
+  onExportJson,
+  onImportJson,
+  onClearDraft,
 }: ActionButtonsProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && onImportJson) {
+      onImportJson(file);
+    }
+    // Reset input so the same file can be re-selected
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
   return (
     <div className="sticky top-0 z-50 mb-8 h-16 border-b border-gray-200 bg-white">
       <div className="flex h-16 flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -58,6 +75,45 @@ export function ActionButtons({
         </div>
 
         <div className="flex items-center space-x-3">
+          {onExportJson && (
+            <button
+              onClick={onExportJson}
+              className="btn btn-secondary"
+              title="Save invoice data as JSON file"
+            >
+              Save JSON
+            </button>
+          )}
+
+          {onImportJson && (
+            <>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".json"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="btn btn-secondary"
+                title="Load invoice data from JSON file"
+              >
+                Load JSON
+              </button>
+            </>
+          )}
+
+          {onClearDraft && (
+            <button
+              onClick={onClearDraft}
+              className="btn btn-secondary"
+              title="Clear saved draft and reset form"
+            >
+              Clear Draft
+            </button>
+          )}
+
           <button
             onClick={onGeneratePreview}
             disabled={isGenerating || isDisabled}

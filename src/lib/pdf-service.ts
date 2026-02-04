@@ -19,6 +19,7 @@ function convertInvoiceData(data: InvoiceData, showPaymentSchedule: boolean = tr
     logo: data.company.logo || '',
     invoiceNumber: data.invoiceNumber,
     invoiceDate: data.invoiceDate,
+    dueDate: data.dueDate,
     currency: data.currency,
     showPaymentSchedule: showPaymentSchedule,
     owner: {

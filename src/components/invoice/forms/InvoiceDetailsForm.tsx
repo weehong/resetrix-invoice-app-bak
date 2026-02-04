@@ -183,6 +183,28 @@ export function InvoiceDetailsForm({
             </div>
           </div>
 
+          <div>
+            <label
+              htmlFor="dueDate"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Due Date <span className="text-error-500">*</span>
+            </label>
+            <div className="mt-1">
+              <input
+                id="dueDate"
+                type="date"
+                {...register("dueDate")}
+                className={`focus:border-accent-500 focus:ring-accent-500 block w-full rounded-md border-gray-300 text-sm shadow-sm ${errors.dueDate ? "error-input" : ""
+                  }`}
+              />
+              {errors.dueDate && (
+                <p className="text-error-600 mt-2 text-sm">
+                  {errors.dueDate.message}
+                </p>
+              )}
+            </div>
+          </div>
 
         </div>
 

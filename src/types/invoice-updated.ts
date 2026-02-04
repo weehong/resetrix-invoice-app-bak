@@ -90,6 +90,7 @@ export type InvoiceProps = {
   logo: string;
   invoiceNumber: string;
   invoiceDate: string;
+  dueDate?: string;
   currency: string;
   owner: AddressInfo;
   client: AddressInfo;
@@ -117,6 +118,7 @@ export type AddressInfo = {
 export interface InvoiceData {
   invoiceNumber: string;
   invoiceDate: string;
+  dueDate: string;
 
   currency: string;
   issueDate?: string;

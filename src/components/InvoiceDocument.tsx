@@ -59,6 +59,7 @@ export default function InvoiceDocument({
           invoiceNumber={invoice.invoiceNumber}
           logo={invoice.logo}
           invoiceDate={invoice.invoiceDate}
+          dueDate={invoice.dueDate}
         />
         <AddressSection from={invoice.owner} to={invoice.client} />
         <InvoiceTable

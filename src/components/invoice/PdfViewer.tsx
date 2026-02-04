@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { useFieldArray, useForm } from "react-hook-form";
 
+import { useInvoicePersistence } from "@/hooks/useInvoicePersistence";
 import { usePDF } from "@/hooks/usePDF";
 import { InvoiceData } from "@/types/invoice-updated";
 import { getDefaultColumns } from "@/utils/column-management";
@@ -55,6 +56,13 @@ export default function PdfViewer({
   className: _className = "",
 }: PdfViewerProps) {
   const { previewPDF, downloadPDF, isGenerating, error } = usePDF();
+  const {
+    saveToLocalStorage,
+    loadFromLocalStorage,
+    clearLocalStorage,
+    exportToJsonFile,
+    importFromJsonFile,
+  } = useInvoicePersistence();
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [showPaymentSchedule, setShowPaymentSchedule] = useState<boolean>(
     initialShowPaymentSchedule,
@@ -85,10 +93,16 @@ export default function PdfViewer({
       initialData?.paymentSchedule || defaultInvoiceData.paymentSchedule,
   };
 
+  // Load saved draft from localStorage, falling back to merged initial data
+  const [resolvedDefaults] = useState<InvoiceFormData>(() => {
+    const saved = loadFromLocalStorage();
+    return saved || mergedInitialData;
+  });
+
   // Initialize React Hook Form
   const form = useForm<InvoiceFormData>({
     // resolver: zodResolver(invoiceSchema),
-    defaultValues: mergedInitialData as InvoiceFormData,
+    defaultValues: resolvedDefaults,
     mode: "onChange",
   });
 
@@ -174,6 +188,36 @@ export default function PdfViewer({
     }
   }, [form, onDataChange]);
 
+  // Auto-save to localStorage on every form change (debounced)
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      saveToLocalStorage(value as InvoiceFormData);
+    });
+    return () => subscription.unsubscribe();
+  }, [form, saveToLocalStorage]);
+
+  const handleExportJson = useCallback(() => {
+    const data = form.getValues();
+    exportToJsonFile(data);
+  }, [form, exportToJsonFile]);
+
+  const handleImportJson = useCallback(
+    async (file: File) => {
+      try {
+        const data = await importFromJsonFile(file);
+        form.reset(data);
+      } catch (err) {
+        console.error("Failed to import JSON:", err);
+      }
+    },
+    [form, importFromJsonFile],
+  );
+
+  const handleClearDraft = useCallback(() => {
+    clearLocalStorage();
+    form.reset(mergedInitialData);
+  }, [clearLocalStorage, form, mergedInitialData]);
+
   const handleGeneratePreview = async () => {
     try {
       const formData = getValues();
@@ -218,6 +262,9 @@ export default function PdfViewer({
         isGenerating={isGenerating}
         isDisabled={showPaymentSchedule && totalPercentage > 100}
         error={error}
+        onExportJson={handleExportJson}
+        onImportJson={handleImportJson}
+        onClearDraft={handleClearDraft}
       />
 
       <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">

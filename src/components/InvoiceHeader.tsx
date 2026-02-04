@@ -30,24 +30,40 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: colors.darkText,
   },
+  dueDate: {
+    fontSize: 10,
+    color: colors.darkText,
+    marginTop: 4,
+  },
 });
 
 interface InvoiceHeaderProps {
   invoiceNumber: string;
   logo: string | undefined;
   invoiceDate?: string;
+  dueDate?: string;
 }
 
-const Logo = ({ logo }: { logo: string | undefined }) => (
-  <View style={styles.logoContainer}>
-    {/* eslint-disable-next-line jsx-a11y/alt-text */}
-    <Image style={styles.logo} src={logo} />
-  </View>
-);
+const Logo = ({ logo, dueDate }: { logo: string | undefined; dueDate?: string }) => {
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
+    return new Date(dateString).toLocaleDateString('en-GB').replace(/\//g, '-');
+  };
+
+  return (
+    <View style={styles.logoContainer}>
+      {/* eslint-disable-next-line jsx-a11y/alt-text */}
+      <Image style={styles.logo} src={logo} />
+      {dueDate && (
+        <Text style={styles.dueDate}>Due Date: {formatDate(dueDate)}</Text>
+      )}
+    </View>
+  );
+};
 
 const InvoiceInfo = ({
   invoiceNumber,
-  invoiceDate
+  invoiceDate,
 }: {
   invoiceNumber: string;
   invoiceDate?: string;
@@ -70,6 +86,7 @@ export default function InvoiceHeader({
   invoiceNumber,
   logo,
   invoiceDate,
+  dueDate,
 }: InvoiceHeaderProps) {
   return (
     <View style={styles.container}>
@@ -77,7 +94,7 @@ export default function InvoiceHeader({
         invoiceNumber={invoiceNumber}
         invoiceDate={invoiceDate}
       />
-      <Logo logo={logo} />
+      <Logo logo={logo} dueDate={dueDate} />
     </View>
   );
 }

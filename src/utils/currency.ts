@@ -78,7 +78,7 @@ export function formatCurrency(
   options: Intl.NumberFormatOptions = {}
 ): string {
   const currency = getCurrencyByCode(currencyCode);
-  
+
   if (!currency) {
     // Fallback to USD if currency not found
     return new Intl.NumberFormat("en-US", {
@@ -91,6 +91,34 @@ export function formatCurrency(
   return new Intl.NumberFormat(currency.locale, {
     style: "currency",
     currency: currency.code,
+    ...options,
+  }).format(amount);
+}
+
+/**
+ * Format amount as number without currency symbol
+ */
+export function formatNumber(
+  amount: number,
+  currencyCode: string = DEFAULT_CURRENCY,
+  options: Intl.NumberFormatOptions = {}
+): string {
+  const currency = getCurrencyByCode(currencyCode);
+
+  if (!currency) {
+    // Fallback to USD locale if currency not found
+    return new Intl.NumberFormat("en-US", {
+      style: "decimal",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+      ...options,
+    }).format(amount);
+  }
+
+  return new Intl.NumberFormat(currency.locale, {
+    style: "decimal",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
     ...options,
   }).format(amount);
 }
